@@ -1,12 +1,22 @@
 FROM python:3.8.3-alpine3.12
 
 WORKDIR /usr/src/app
+RUN apk add python3-dev build-base linux-headers pcre-dev
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip freeze
+RUN apk add vim
+RUN addgroup -S www-data && adduser -S www-data -G www-data
 
-# RUN apk --update add bash nano
-# ENV STATIC_URL /static
-# ENV STATIC_PATH /var/www/app/static
-# COPY ./requirements.txt /var/www/requirements.txt
-# RUN pip install -r /var/www/requirements.txt
+RUN apk add nginx
+RUN mkdir -p /etc/nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY main.py ./
+COPY run.sh ./
+RUN chmod +x run.sh
+COPY uwsgi.ini ./
+COPY app ./app
+ENV FLASK_APP=main.py
+
+CMD [ "./run.sh" ]
