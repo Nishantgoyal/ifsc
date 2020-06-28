@@ -8,15 +8,19 @@ RUN pip freeze
 RUN apk add vim
 RUN addgroup -S www-data && adduser -S www-data -G www-data
 
-RUN apk add nginx
-RUN mkdir -p /etc/nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+# RUN apk add nginx
+# RUN mkdir -p /etc/nginx /etc/uwsgi
 
-COPY main.py ./
-COPY run.sh ./
-RUN chmod +x run.sh
-COPY uwsgi.ini ./
-COPY app ./app
+# COPY conf/nginx.conf /etc/nginx/nginx.conf
+# COPY conf/uwsgi.ini /etc/uwsgi/uwsgi.ini
+
+# COPY scripts/run.sh ./
+# RUN chmod +x run.sh
+
+COPY scripts/main.py ./
 ENV FLASK_APP=main.py
+ENV FLASK_DEBUG=1
 
-CMD [ "./run.sh" ]
+# CMD [ "uwsgi", "--ini", "/etc/uwsgi/uwsgi.ini" ]
+# CMD [ "./run.sh" ]
+CMD [ "flask", "run", "-h", "0.0.0.0", "-p", "80" ]
