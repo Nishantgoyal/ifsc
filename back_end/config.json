@@ -1,0 +1,19 @@
+{
+    "dirs": {
+        "out_dir": "data",
+        "out_dir_bank_reports": "data/bank_reports",
+        "json_reports_dir": "data/json_reports",
+        "meta_dir": "meta"
+    },
+    "meta_file": "meta/meta_store.json",
+    "bank_links_file": "meta/bank_links.json",
+    "RBI_URL": "https://www.rbi.org.in/Scripts/bs_viewcontent.aspx?Id=2009",
+    "DB": {
+        "DB_Name": "ifsc_db",
+        "Host": "localhost",
+        "User": "root",
+        "Password": "example",
+        "meta_collection": "meta_collection",
+        "data_collection": "data_collection"
+    }
+}
