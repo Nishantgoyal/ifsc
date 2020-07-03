@@ -66,6 +66,7 @@ def main():
 
     # Get Bank Links from RBI Home Page
     bank_links = get_bank_links(config, db_handler, report_handler)
+    db_handler.refresh(config["DB"]["bank_links"], bank_links)
     # meta_obj = get_meta(db_handler)
 #     report_handler.update_meta()
 #     print(meta_obj)

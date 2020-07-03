@@ -22,7 +22,6 @@ class DBHandler:
         for db in dbs:
             print("DataBase: {}".format(db))
 
-    def refresh(self, collection, data):
+    def fetch_data(self, collection):
         db_name = self.config["DB"]["DB_Name"]
-        self.client[db_name][collection].drop()
-        self.client[db_name][collection].insert_many(data)
+        return self.client[db_name][collection].find()

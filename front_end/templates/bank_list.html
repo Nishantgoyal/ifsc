@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>IFSC Site</title>
+</head>
+
+<body>
+    <h1>
+        Bank List
+    </h1>
+    <table border="1">
+        <tr>
+            <th>Bank Name</th>
+            <th>Bank URL</th>
+        </tr>
+        {% for bank_data in data %}
+        <tr>
+            <td>
+                {{ bank_data.name }}
+            </td>
+            <td>
+                <a href="{{ bank_data.link }}"> {{ bank_data.link }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

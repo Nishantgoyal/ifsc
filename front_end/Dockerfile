@@ -8,5 +8,5 @@ RUN pip freeze
 
 ENV FLASK_APP=main.py
 ENV FLASK_DEBUG=1
-
-CMD [ "flask", "run", "-h", "0.0.0.0", "-p", "80" ]
+EXPOSE 8080
+CMD [ "flask", "run", "-h", "0.0.0.0", "-p", "8080" ]
