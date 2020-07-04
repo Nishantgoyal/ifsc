@@ -1,12 +1,7 @@
-<html>
+{% extends "layout.html" %} {% block content %}
 
-<head>
-    <title>IFSC Site</title>
-</head>
-
-<body>
-    <h1>
-        Bank List
+<h2>
+    Bank List
     </h1>
     <table border="1">
         <tr>
@@ -32,6 +27,4 @@
         </tr>
         {% endfor %}
     </table>
-</body>
-
-</html>
+    {% endblock %}

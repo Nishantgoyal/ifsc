@@ -11,23 +11,12 @@ def get_json(file_name):
         return json.load(f)
 
 
-@app.route('/')
-def home():
-    return "Hello To The world!"
-
-
 config = get_json("config.json")
 db_handler = DBHandler(config)
 
 
-@app.route('/banks')
-def banks():
-    # data = [
-    #     {
-    #         "name": "Abhyudaya Cooperative Bank",
-    #         "link": "https://rbidocs.rbi.org.in/rdocs/Content/DOCs/IFCB2009_02.xlsx"
-    #     }
-    # ]
+@app.route('/')
+def home():
     data = db_handler.fetch_data(config["DB"]["bank_links"])
     return render_template('bank_list.html', data=data)
 

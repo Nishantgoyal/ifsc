@@ -1,56 +1,45 @@
-<html>
-
-<head>
-    <title>IFSC Site</title>
-</head>
-
-<body>
-    <h1>
-        <a href="/banks">HOME</a>
-    </h1>
-    <h2>
-        {{ bank_name }}
-    </h2>
-    <table border="1">
-        <tr>
-            <th>Bank Name</th>
-            <th>IFSC</th>
-            <th>OFFICE</th>
-            <th>ADDRESS</th>
-            <th>DISTRICT</th>
-            <th>CITY</th>
-            <th>STATE</th>
-            <th>PHONE</th>
-        </tr>
-        {% for bank_data in data %}
-        <tr>
-            <td>
-                {{ bank_data["BANK NAME"] }}
-            </td>
-            <td>
-                {{ bank_data.IFSC }}
-            </td>
-            <td>
-                {{ bank_data.OFFICE }}
-            </td>
-            <td>
-                {{ bank_data.ADDRESS }}
-            </td>
-            <td>
-                {{ bank_data.DISTRICT }}
-            </td>
-            <td>
-                {{ bank_data.CITY }}
-            </td>
-            <td>
-                {{ bank_data.STATE }}
-            </td>
-            <td>
-                {{ bank_data.PHONE }}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-
-</html>
+{% extends "layout.html" %} {% block content %}
+<h2>
+    {{ bank_name }}
+</h2>
+<table border="1">
+    <tr>
+        <th>Bank Name</th>
+        <th>IFSC</th>
+        <th>OFFICE</th>
+        <th>ADDRESS</th>
+        <th>DISTRICT</th>
+        <th>CITY</th>
+        <th>STATE</th>
+        <th>PHONE</th>
+    </tr>
+    {% for bank_data in data %}
+    <tr>
+        <td>
+            {{ bank_data["BANK NAME"] }}
+        </td>
+        <td>
+            {{ bank_data.IFSC }}
+        </td>
+        <td>
+            {{ bank_data.OFFICE }}
+        </td>
+        <td>
+            {{ bank_data.ADDRESS }}
+        </td>
+        <td>
+            {{ bank_data.DISTRICT }}
+        </td>
+        <td>
+            {{ bank_data.CITY }}
+        </td>
+        <td>
+            {{ bank_data.STATE }}
+        </td>
+        <td>
+            {{ bank_data.PHONE }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
