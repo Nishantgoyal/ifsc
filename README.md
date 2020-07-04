@@ -16,6 +16,7 @@
      - Download RBI Home page
      - Parse RBI Home page
      - Get list of Banks and dump to mongo
+  2. Fetch List of Banks and download the raw file
 
 ### Frontend
 

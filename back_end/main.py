@@ -1,6 +1,8 @@
 import os
 import json
 import time
+import urllib.request
+import pandas
 
 from code.bank_report import Bank_Report
 from code.db_handler import DBHandler
@@ -14,16 +16,6 @@ def create_output_folder_structure(config):
             os.makedirs(dirs[directory])
 
 
-# def get_meta(db_handler):
-#     print("Getting Meta...")
-#     meta_obj = list(db_handler.meta_collection.find())
-#     if meta_obj == []:
-#         meta_obj = {}
-#     else:
-#         meta_obj = meta_obj[0]
-#     print("Meta: {}".format(meta_obj))
-#     return meta_obj
-
 def get_json(file_name):
     with open(file_name) as f:
         return json.load(f)
@@ -36,9 +28,9 @@ def dump_json(file_name, data):
 
 def is_file_old(file_name):
     if os.path.exists(file_name):
-        age = (time.time() - os.path.getmtime(file_name)) / 60
-        if age > 20:
-            print("File is {} min old".format(age))
+        age = int(time.time() - os.path.getmtime(file_name)) // (60 * 60)
+        if age > 24:  # If file is one day old
+            print("File is {} hours old".format(age))
             return True
     else:
         return True
@@ -56,6 +48,25 @@ def get_bank_links(config, db_handler, report_handler):
     return get_json(file_name)
 
 
+def download_bank_report(file_path, url):
+    if is_file_old(file_path):
+        print("Downloading file: {}".format(file_path))
+        urllib.request.urlretrieve(url, file_path)
+
+
+def parse_bank_report(xlsx_file_path, json_file_path):
+    parsed = False
+    json_str = ""
+    if is_file_old(json_file_path):
+        print("Parsing file: {}".format(xlsx_file_path))
+        excel_data_df = pandas.read_excel(xlsx_file_path)
+        json_str = excel_data_df.to_json(orient='records')
+        with open(json_file_path, "w") as jf:
+            json.dump(json_str, jf)
+        parsed = True
+    return parsed, json_str
+
+
 def main():
     config = get_json("config.json")
     print("Config: {}".format(config))
@@ -67,11 +78,25 @@ def main():
     # Get Bank Links from RBI Home Page
     bank_links = get_bank_links(config, db_handler, report_handler)
     db_handler.refresh(config["DB"]["bank_links"], bank_links)
-    # meta_obj = get_meta(db_handler)
-#     report_handler.update_meta()
-#     print(meta_obj)
-#     db_handler.meta_collection.replace_one({}, meta_obj)
-#     _ = get_meta(db_handler)
+
+    for bank_link in bank_links:
+        # print(bank_link)
+        bank_file_path = "{}/{}.xlsx".format(
+            config["dirs"]["out_dir_bank_reports"],
+            bank_link["name"].replace(" ", "_")
+        )
+        download_bank_report(bank_file_path, bank_link["link"])
+
+        json_file_path = "{}/{}.json".format(
+            config["dirs"]["json_reports_dir"],
+            bank_link["name"].replace(" ", "_")
+        )
+        parsed, json_str = parse_bank_report(bank_file_path, json_file_path)
+
+        if parsed:
+            collection_name = bank_link["name"].replace(" ", "_")
+            json_data = json.loads(json_str)
+            db_handler.refresh(collection_name, json_data)
 
 
 if __name__ == '__main__':
