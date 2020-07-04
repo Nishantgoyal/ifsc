@@ -12,14 +12,22 @@
         <tr>
             <th>Bank Name</th>
             <th>Bank URL</th>
+            <th>Last Modified</th>
+            <th>To Download</th>
         </tr>
         {% for bank_data in data %}
         <tr>
             <td>
-                {{ bank_data.name }}
+                <a href="/bank/{{ bank_data.name }}"> {{ bank_data.name }} </a>
             </td>
             <td>
                 <a href="{{ bank_data.link }}"> {{ bank_data.link }}</a>
+            </td>
+            <td>
+                {{ bank_data.last_modified }}
+            </td>
+            <td>
+                {{ bank_data.download }}
             </td>
         </tr>
         {% endfor %}

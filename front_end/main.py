@@ -30,3 +30,12 @@ def banks():
     # ]
     data = db_handler.fetch_data(config["DB"]["bank_links"])
     return render_template('bank_list.html', data=data)
+
+
+@app.route('/bank/<bank_name>')
+def bank(bank_name):
+    bank_name = bank_name.replace("%20", "_").replace(" ", "_")
+    print(bank_name)
+    data = db_handler.fetch_data(bank_name)
+    print(data)
+    return render_template('bank.html', bank_name=bank_name, data=data)
