@@ -1,0 +1,18 @@
+tr:hover {
+    background: #8F8FE5 !important;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+ul {
+    list-style: none;
+    background-color: #8F8FE5;
+}

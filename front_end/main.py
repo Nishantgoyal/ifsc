@@ -18,6 +18,12 @@ db_handler = DBHandler(config)
 @app.route('/')
 def home():
     data = db_handler.fetch_data(config["DB"]["bank_links"])
+    return render_template('home.html', data=data)
+
+
+@app.route('/banks')
+def list_banks():
+    data = db_handler.fetch_data(config["DB"]["bank_links"])
     return render_template('bank_list.html', data=data)
 
 
